@@ -37,6 +37,14 @@ public class MassTransistWorkerSaga(ILogger<MassTransistWorkerSaga> logger, IBus
 	{
 		logger.LogInformation("Received Text: {type} {Text}", context.Message.GetType(), context.Message.Value);
 
+		logger.LogInformation("Staring out of band");
+
+		await bus.Publish(
+			new TransactionStopped
+			{
+				Value = $"The time is {DateTimeOffset.Now}",
+			});
+
 		await Task.Yield();
 
 		logger.LogInformation("Done");
