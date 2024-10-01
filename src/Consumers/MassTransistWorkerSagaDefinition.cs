@@ -10,6 +10,8 @@ public class MassTransistWorkerSagaDefinition :
 		IConsumerConfigurator<MassTransistWorkerSaga> consumerConfigurator,
 		IRegistrationContext context)
 	{
+		endpointConfigurator.UseMessageRetry(r => r.Intervals(500, 1000));
+
 		endpointConfigurator.UseInMemoryOutbox(context);
 	}
 }

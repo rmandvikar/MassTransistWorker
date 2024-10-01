@@ -10,6 +10,8 @@ public class MassTransistWorkerStep2ConsumerDefinition :
 		IConsumerConfigurator<MassTransistWorkerStep2Consumer> consumerConfigurator,
 		IRegistrationContext context)
 	{
+		endpointConfigurator.UseMessageRetry(r => r.Intervals(500, 1000));
+
 		endpointConfigurator.UseInMemoryOutbox(context);
 	}
 }

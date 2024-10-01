@@ -13,6 +13,13 @@ public class MassTransistWorkerStep2Consumer(ILogger<TransactionStep2> logger, I
 	{
 		logger.LogInformation("Received Text: {type} {Text}", context.Message.GetType(), context.Message.Value);
 
+		// throw on attempt 0
+		if (context.GetRetryAttempt() == 0)
+		{
+			throw new Exception("boom!");
+		}
+
+		// push through on retry attempt
 		await bus.Publish(
 			new TransactionStep2Result
 			{
